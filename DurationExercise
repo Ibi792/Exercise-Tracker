@@ -1,0 +1,96 @@
+import React, { useState, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+export default function DurationExercise({ route, navigation }) {
+  const { exerciseName } = route.params;
+  const [time, setTime] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const timerRef = useRef(null);
+
+  const startTimer = () => {
+    if (!timerRunning) {
+      setTimerRunning(true);
+      timerRef.current = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+    }
+  };
+
+  const pauseTimer = () => {
+    if (timerRunning) {
+      setTimerRunning(false);
+      clearInterval(timerRef.current);
+    }
+  };
+
+  const resetTimer = () => {
+    setTimerRunning(false);
+    clearInterval(timerRef.current);
+    setTime(0);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>{exerciseName}</Text>
+      <Text style={styles.count}>Time: {time}s</Text>
+
+      <TouchableOpacity style={styles.button} onPress={startTimer} disabled={timerRunning}>
+        <Text style={styles.buttonText}>Start</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={pauseTimer} disabled={!timerRunning}>
+        <Text style={styles.buttonText}>Pause</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={resetTimer}>
+        <Text style={styles.buttonText}>Reset</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home')}>
+        <Text style={styles.buttonText}>Go Home</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  count: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#7888BA',
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 25,
+    alignItems: 'center',
+    width: 200,
+  },
+  pauseButton: {
+    backgroundColor: '#F8BD25', // Ambbber for Pause butttton
+  },
+  homeButton: {
+    backgroundColor: '#F63C80',
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 25,
+    alignItems: 'center',
+    width: 200,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
