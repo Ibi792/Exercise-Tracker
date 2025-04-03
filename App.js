@@ -9,10 +9,10 @@ import RepetitionExercise from './RepetitionExercise';
 const Stack = createStackNavigator();
 
 const exercises = [
-  { name: 'Push-Ups', type: 'Repetition' },
-  { name: 'Jump Rope', type: 'Duration' },
+  { name: "Push-Ups", type: "Repetition", suggested: "Jump Rope" },
+  { name: "Jump Rope", type: "Duration", suggested: "Pull-ups" },
   { name: "Pull-ups", type: "Repetition", suggested: "Biking" },
-  { name: "Biking", type: "Duration" }
+  { name: "Biking", type: "Duration", suggested: "Push-Ups" },
 ];
 
 export default function App() {
@@ -29,31 +29,31 @@ export default function App() {
 
 function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      {/* Exercises Title */}
-      <Text style={styles.title}>Exercises To Get Fit And Buff</Text>
-
-      {/* FlatList of allll da buttons */}
+    <View>
+      <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 10 }}>
+        Exercises
+      </Text>
       <FlatList
         data={exercises}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.button}
+          <TouchableOpacity 
+            style={{ backgroundColor: '#7888BA', padding: 15, margin: 10, borderRadius: 25, alignItems: 'center' }}
             onPress={() =>
               navigation.navigate(
-                item.type === 'Repetition' ? 'RepetitionExercise' : 'DurationExercise',
-                { exerciseName: item.name }
+                item.type === "Repetition" ? "RepetitionExercise" : "DurationExercise",
+                { exerciseName: item.name, suggestedExercise: item.suggested }
               )
             }
           >
-            <Text style={styles.buttonText}>{item.name}</Text>
+            <Text style={{ color: "#FFF", fontSize: 18 }}>{item.name}</Text>
           </TouchableOpacity>
         )}
       />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

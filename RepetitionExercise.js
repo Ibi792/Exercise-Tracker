@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function RepetitionExercise({ route, navigation }) {
-  const { exerciseName } = route.params;
+  const { exerciseName, suggestedExercise } = route.params;
   const [count, setCount] = useState(0);
 
   return (
@@ -18,9 +18,17 @@ export default function RepetitionExercise({ route, navigation }) {
         <Text style={styles.buttonText}>Reset</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity 
+        style={styles.suggestedButton} 
+        onPress={() => navigation.navigate('DurationExercise', { exerciseName: suggestedExercise })}
+      >
+        <Text style={styles.buttonText}>Try {suggestedExercise}</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.buttonText}>Go Home</Text>
       </TouchableOpacity>
+      
     </View>
   );
 }
@@ -51,6 +59,14 @@ const styles = StyleSheet.create({
   },
   homeButton: {
     backgroundColor: '#F63C80',
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 25,
+    alignItems: 'center',
+    width: 200,
+  },
+  suggestedButton: {
+    backgroundColor: '#4CAF50',
     padding: 15,
     marginVertical: 10,
     borderRadius: 25,
